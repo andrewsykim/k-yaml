@@ -1,0 +1,21 @@
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: fast
+provisioner: kubernetes.io/vsphere-volume
+parameters:
+    hostFailuresToTolerate: "2"
+    cachereservation: "20"
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvcsc-vsan
+  annotations:
+    volume.beta.kubernetes.io/storage-class: fast
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
