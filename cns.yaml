@@ -1,0 +1,43 @@
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: example-vanilla-block-sc
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
+provisioner: csi.vsphere.vmware.com
+parameters:
+  datastoreurl: "<your custom datastore url>" # you can get this with govc datastore.info <datastore>
+  storagepolicyname: "vSAN Default Storage Policy"  #Optional Parameter
+  fstype: "ext4" #Optional Parameter
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: example-vanilla-block-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  storageClassName: example-vanilla-block-sc
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: example-vanilla-block-pod
+spec:
+  containers:
+  - name: test-container
+    image: gcr.io/google_containers/busybox:1.24
+    command: ["/bin/sh", "-c", "echo 'hello' > /mnt/volume1/index.html  && chmod o+rX /mnt /mnt/volume1/index.html && while true ; do sleep 2 ; done"]
+    volumeMounts:
+    - name: test-volume
+      mountPath: /mnt/volume1
+  restartPolicy: Never
+  volumes:
+  - name: test-volume
+    persistentVolumeClaim:
+      claimName: example-vanilla-block-pvc
