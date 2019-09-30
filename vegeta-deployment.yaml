@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vegeta
+  labels:
+    app: vegeta
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vegeta
+  template:
+    metadata:
+      labels:
+        app: vegeta
+    spec:
+      containers:
+      - name: vegeta
+        image: peterevans/vegeta
+        command:
+        - /bin/sh
+        args:
+        - -c
+        - "while true; do echo 'GET http://10.110.54.48' | vegeta attack -rate=1 -keepalive=true -duration=1000s -connections=1 | tee results.bin | vegeta report; done"
+
+
