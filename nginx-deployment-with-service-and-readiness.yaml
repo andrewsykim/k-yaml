@@ -26,7 +26,7 @@ spec:
               command: ['sh', '-c', "echo 1 > /tmp/healthy"]
           preStop:
             exec:
-              command: ['sh', '-c', "rm /tmp/healthy && sleep 60"]
+              command: ['sh', '-c', "sleep 30 && rm /tmp/healthy && sleep 30"]
         readinessProbe:
           exec:
             command:
@@ -43,10 +43,8 @@ metadata:
   labels:
     app: nginx
 spec:
-  type: LoadBalancer
+  type: NodePort
   externalTrafficPolicy: Local
-  loadBalancerSourceRanges:
-  - 175.0.0.0/8
   selector:
     app: nginx
   ports:
