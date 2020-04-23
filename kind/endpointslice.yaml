@@ -13,13 +13,13 @@ kubeadmConfigPatches:
     name: config
   apiServer:
     extraArgs:
-      "feature-gates": "EndpointSlice=true,EndpointSliceProxying=true,ServiceTopology=true"
+      "feature-gates": "EndpointSlice=true,EndpointSliceProxying=true"
   scheduler:
     extraArgs:
-      "feature-gates": "EndpointSlice=true,EndpointSliceProxying=true,ServiceTopology=true"
+      "feature-gates": "EndpointSlice=true,EndpointSliceProxying=true"
   controllerManager:
     extraArgs:
-      "feature-gates": "EndpointSlice=true,EndpointSliceProxying=true,ServiceTopology=true"
+      "feature-gates": "EndpointSlice=true,EndpointSliceProxying=true"
 - |
   apiVersion: kubeadm.k8s.io/v1beta2
   kind: InitConfiguration
@@ -27,7 +27,7 @@ kubeadmConfigPatches:
     name: config
   nodeRegistration:
     kubeletExtraArgs:
-      "feature-gates": "EndpointSlice=true,EndpointSliceProxying=true,ServiceTopology=true"
+      "feature-gates": "EndpointSlice=true,EndpointSliceProxying=true"
 - |
   apiVersion: kubeproxy.config.k8s.io/v1alpha1
   kind: KubeProxyConfiguration
@@ -37,6 +37,4 @@ kubeadmConfigPatches:
   featureGates:
     EndpointSlice: true
     EndpointSliceProxying: true
-
-
 
