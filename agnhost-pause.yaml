@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: agnhost-pause
+spec:
+  selector:
+    matchLabels:
+      app: agnhost-pause
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: agnhost-pause
+    spec:
+      containers:
+      - name: pause
+        image: registry.k8s.io/e2e-test-images/agnhost:2.40
+        args:
+        - pause
